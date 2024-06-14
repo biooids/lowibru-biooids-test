@@ -29,6 +29,8 @@ import UploadItems from "./components/MarketComp/UploadItems";
 import MyCart from "./components/MarketComp/MyCart";
 import Status from "./components/MarketComp/Status";
 import Talent from "./components/talentComp/Talent";
+import SignUp from "./pages/SignUp";
+import SignIn from "./pages/SignIn";
 
 function App() {
   return (
@@ -36,6 +38,9 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
+
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signup" element={<SignUp />} />
 
           <Route path="talents" element={<Talent />} />
 

@@ -21,12 +21,16 @@ function CommentsComp() {
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi
           alias, illum tempora officia quos nostrum. Pariatur vero sunt
           eligendi? Rerum tempora numquam consequuntur dolores perferendis
-          assumenda laborum accusantium accusamus ea?
+          assumenda laborum accusantium accusamus ea?Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Nostrum atque animi vitae, corrupti
+          numquam consectetur vero modi autem totam ex necessitatibus illo
+          quaerat vel! Est quod cumque voluptate aperiam necessitatibus.
         </p>
         <div className="flex justify-between">
           <span className="hover:underline cursor-pointer">reply</span>
           <span className="hover:underline cursor-pointer"> replies: 11</span>
           <span className="hover:underline cursor-pointer"> like: 11</span>
+          <span className="hover:underline cursor-pointer"> share</span>
         </div>
       </div>
     </div>

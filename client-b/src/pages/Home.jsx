@@ -1,4 +1,5 @@
 import React from "react";
+import profilePic from "../assets/father.jpg";
 
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   TextInput,
   Radio,
   Card,
+  Avatar,
 } from "flowbite-react";
 import { useState } from "react";
 import { HiEnvelope } from "react-icons/hi2";
@@ -20,6 +22,7 @@ import "../css/home.css";
 import LeadersComp from "../components/homeComp/LeadersComp";
 import CommentsComp from "../components/homeComp/CommentsComp";
 import CountryComp from "../components/homeComp/CountryComp";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +30,31 @@ function Home() {
 
   return (
     <section>
+      <section className=" border-b-2 border-slate-60 p-3 ">
+        <Avatar img={profilePic} bordered rounded>
+          <div className="space-y-1 font-medium dark:text-white">
+            <div>Jese Leos</div>
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Joined in August 2014
+            </div>
+          </div>
+        </Avatar>
+        <div className="flex gap-2 justify-between items-center  ">
+          <Link to="signin">
+            <div className="">
+              <p className="mb-3">Have an account ?</p>
+              <Button>Sign in</Button>
+            </div>
+          </Link>
+
+          <Link to="signup">
+            <div>
+              <p className="mb-3">don't have an account ?</p>
+              <Button>Create account</Button>
+            </div>
+          </Link>
+        </div>
+      </section>
       <section className=" landing-section">
         <div>
           <h1 className="text-4xl">Welcome to FFWPU</h1>

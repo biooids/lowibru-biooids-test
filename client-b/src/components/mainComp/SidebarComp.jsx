@@ -1,5 +1,5 @@
 import React from "react";
-import { Avatar, Sidebar } from "flowbite-react";
+import { Avatar, Button, Sidebar } from "flowbite-react";
 
 import { FaUserCircle, FaHome, FaStoreAlt } from "react-icons/fa";
 import {
@@ -18,10 +18,20 @@ import { Link } from "react-router-dom";
 function SidebarComp() {
   return (
     <Sidebar className=" sticky top-0  hidden md:block w-[300px]  z-10  ">
-      <div className=" border-b-2 border-amber-500 pt-5">
-        <Avatar img={profilePic} size="lg" rounded bordered />
-        <div className="text-center">
-          <h3>John Doe: Leader</h3>
+      <div className=" border-b-2 border-amber-500  pb-5">
+        <div>
+          <Avatar img={profilePic} size="lg" rounded bordered />
+          <div className="text-center">
+            <h3>John Doe: Leader</h3>
+          </div>
+        </div>
+        <div className="flex justify-between">
+          <Link to="signin">
+            <Button>Sign In</Button>
+          </Link>
+          <Link to="signup">
+            <Button>sign up</Button>
+          </Link>
         </div>
       </div>
       <Sidebar.Items className="mt-3  h-screen  ">
