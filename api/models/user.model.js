@@ -6,14 +6,14 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    password: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
       unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
     },
   },
   { timestamps: true } //time stamp for mongo create extra information like the time of creation  and time of update

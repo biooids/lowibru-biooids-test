@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
+import authRoutes from "./routes/auth.route.js";
 
 dotenv.config();
 
@@ -17,10 +18,12 @@ const server = app.listen(PORT, () => {
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
-    console.log("Mongo db was connected successfully");
+    console.log("Mongo db Atlas was connected successfully");
   })
   .catch((err) => {
     console.log(`server not working because of ${err}`);
   });
-
+app.use(express.json());
 app.use("/api/user", userRoutes);
+app.use("/api/auth", authRoutes);
+// console.clear();
