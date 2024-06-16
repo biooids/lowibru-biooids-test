@@ -8,6 +8,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../app/user/userSlice.js";
+import OAuth from "../components/OAuth.jsx";
 
 function SignIn() {
   const [formData, setFormData] = useState({});
@@ -111,6 +112,7 @@ function SignIn() {
                 "Sign in"
               )}
             </Button>
+            <OAuth />
 
             <div className="placeholder-oauth">{/* OAuth Buttons Here */}</div>
           </form>
