@@ -1,16 +1,25 @@
-import { configureStore } from "@reduxjs/toolkit";
-import themeReducer from "./theme/themeSlice.js";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./user/userSlice.js";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import themeReducer from "./theme/themeSlice.js";
 
-export const store = configureStore({
-  reducer: {
-    theme: themeReducer,
-    user: userReducer, // Correctly added the user reducer here
-  },
+const rootReducer = combineReducers({
+  user: userReducer,
+  theme: themeReducer,
 });
 
-// Incorrect code: The user reducer should be inside the reducer object
-// export const store = configureStore({
-//   reducer: { theme: themeReducer },
-//   user: userReducer, // This was outside the reducer object
-// });
+const persistConfig = {
+  key: "root",
+  storage,
+  version: 1,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
+});
+export const persistor = persistStore(store);
