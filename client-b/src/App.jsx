@@ -31,6 +31,8 @@ import Status from "./components/MarketComp/Status";
 import Talent from "./components/talentComp/Talent";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
+import Dashboard from "./components/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -41,6 +43,9 @@ function App() {
 
           <Route path="signin" element={<SignIn />} />
           <Route path="signup" element={<SignUp />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
 
           <Route path="talents" element={<Talent />} />
 
