@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LandingPage from "./components/mainComp/LandingPage";
 import MainLayout from "./components/layouts/MainLayout";
 import HomePage from "./components/pages/home/HomePage";
 import Events from "./components/pages/events/Events";
@@ -25,6 +24,8 @@ import UploadItems from "./components/pages/market/components/UploadItems";
 import SignUp from "./components/pages/userForm/SignUp";
 import LogIn from "./components/pages/userForm/LogIn";
 import Profile from "./components/pages/profile/Profile";
+import ForgotPassword from "./components/pages/userForm/ForgotPassword";
+import EmailSent from "./components/pages/userForm/EmailSent";
 
 function App() {
   return (
@@ -37,6 +38,8 @@ function App() {
           {/* from */}
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/login" element={<LogIn />}></Route>
+          <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
+          <Route path="/email-sent" element={<EmailSent />}></Route>
 
           {/* Events */}
           <Route path="/events" element={<Events />}>

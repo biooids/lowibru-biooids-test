@@ -26,8 +26,8 @@ app.use("/api/auth", authRoutes);
 app.use((error, req, res, next) => {
   const statusCode = error.status || 500;
   const message =
-    `sign up failed due to : ${error.message}` ||
-    "sign up failed due to : Internal Server Error";
+    `Action failed due to : ${error.message}` ||
+    "Action failed due to : Internal Server Error";
 
   const responseError = {
     success: false,

@@ -38,11 +38,15 @@ function SidebarComp() {
         <Sidebar.Items className="mt-3  h-screen  ">
           <Sidebar.ItemGroup>
             <Link to="/profile">
-              <Sidebar.Item icon={FaUserCircle}>Update Profile</Sidebar.Item>
+              <Sidebar.Item as="div" icon={FaUserCircle}>
+                Update Profile
+              </Sidebar.Item>
             </Link>
 
-            <Sidebar.Item icon={FaHome}>Home</Sidebar.Item>
-            <Sidebar.Item icon={MdMessage} label="4" labelColor="dark">
+            <Sidebar.Item as="div" icon={FaHome}>
+              Home
+            </Sidebar.Item>
+            <Sidebar.Item as="div" icon={MdMessage} label="4" labelColor="dark">
               Chat
             </Sidebar.Item>
 
@@ -51,7 +55,7 @@ function SidebarComp() {
                 icon={MdOutlineEvent}
                 label="2"
                 labelColor="dark"
-                as={"div"}
+                as="div"
               >
                 Events
               </Sidebar.Item>
@@ -61,23 +65,23 @@ function SidebarComp() {
                 icon={MdOutlineEvent}
                 label="2"
                 labelColor="dark"
-                as={"div"}
+                as="div"
               >
                 Talents
               </Sidebar.Item>
             </Link>
             <Link to="/lectures">
-              <Sidebar.Item icon={MdMenuBook} as={"div"}>
+              <Sidebar.Item icon={MdMenuBook} as="div">
                 Lectures
               </Sidebar.Item>
             </Link>
             <Link to="market">
-              <Sidebar.Item icon={FaStoreAlt} as={"div"}>
+              <Sidebar.Item icon={FaStoreAlt} as="div">
                 Market
               </Sidebar.Item>
             </Link>
             <Link to="media">
-              <Sidebar.Item icon={MdOutlinePermMedia} as={"div"}>
+              <Sidebar.Item icon={MdOutlinePermMedia} as="div">
                 Media
               </Sidebar.Item>
             </Link>
@@ -90,7 +94,9 @@ function SidebarComp() {
             >
               Notifications
             </Sidebar.Item>
-            <Sidebar.Item icon={MdHelp}>Help</Sidebar.Item>
+            <Sidebar.Item as="div" icon={MdHelp}>
+              Help
+            </Sidebar.Item>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>
