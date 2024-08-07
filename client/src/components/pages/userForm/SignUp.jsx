@@ -1,12 +1,26 @@
 import React, { useState } from "react";
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { quantum } from "ldrs";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../../../app/user/userSlice.js";
 quantum.register();
 
 function SignUp() {
+  const {
+    currentUser,
+    loading,
+    error: errorMessage,
+  } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -23,9 +37,7 @@ function SignUp() {
     matching: false,
   });
 
-  const [loading, setLoading] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const onChange = (e) => {
     const { id, value } = e.target;
@@ -50,10 +62,14 @@ function SignUp() {
     e.preventDefault();
     console.log(formData);
     if (formData.password !== formData.repeatPassword) {
-      setErrorMessage("Repeated password don't match");
+      dispatch(signInFailure("Repeated password don't match"));
       setOpenModal(true);
     } else if (formData.password.length < 8) {
-      setErrorMessage("Password is short, it must be min 8 characters");
+      dispatch(
+        dispatch(
+          signInFailure("Password is short, it must be min 8 characters")
+        )
+      );
       setOpenModal(true);
     } else if (
       !formData.userName ||
@@ -62,10 +78,10 @@ function SignUp() {
       !formData.firstName ||
       !formData.lastName
     ) {
-      setErrorMessage("fill out all fields");
+      dispatch(signInFailure("fill out all fields"));
     } else {
       try {
-        setLoading(true);
+        dispatch(signInStart());
         const res = await fetch("/api/auth/signup", {
           method: "POST",
           headers: {
@@ -77,19 +93,17 @@ function SignUp() {
         const data = await res.json();
 
         if (!data.success) {
-          setErrorMessage(String(data.message));
+          dispatch(signInFailure(String(data.message)));
           setOpenModal(true);
-          setLoading(false);
+          return;
         } else {
+          console.log(data);
+          dispatch(signInSuccess(data));
           navigate("/");
         }
-
-        console.log(data);
-        setLoading(false);
       } catch (error) {
-        setErrorMessage(String(error.message || error));
+        dispatch(signInFailure(String(error.message || error)));
         setOpenModal(true);
-        setLoading(false);
       }
     }
   };
@@ -306,7 +320,7 @@ function SignUp() {
                   <>
                     This email or phone exists{" "}
                     <Link className="underline" to="/login">
-                      Log In.
+                      LogIn.
                     </Link>{" "}
                   </>
                 ) : String(errorMessage).includes(

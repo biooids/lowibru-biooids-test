@@ -4,9 +4,24 @@ import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 import { quantum } from "ldrs";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../../../app/user/userSlice.js";
 quantum.register();
 
 function LogIn() {
+  const {
+    currentUser,
+    error: errorMessage,
+    loading,
+  } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     emailOrPhone: "",
     password: "",
@@ -14,12 +29,7 @@ function LogIn() {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const [errorMessage, setErrorMessage] = useState("");
   const [openModal, setOpenModal] = useState(false);
-
-  const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -30,8 +40,12 @@ function LogIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!formData.emailOrPhone || !formData.password) {
+      dispatch(signInFailure("All fields are required"));
+      return;
+    }
     try {
-      setLoading(true);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -42,23 +56,19 @@ function LogIn() {
 
       const data = await res.json();
 
-      console.log(data);
-
       if (!data.success) {
-        setErrorMessage(String(data.message));
+        dispatch(signInFailure(String(data.message)));
         setOpenModal(true);
-        setLoading(false);
         return;
       } else {
+        dispatch(signInSuccess(data));
+        console.log(data);
         navigate("/");
       }
-
-      setLoading(false);
     } catch (error) {
       console.log(error);
-      setErrorMessage(String(error));
+      dispatch(signInFailure(String(error)));
       setOpenModal(true);
-      setLoading(false);
     }
   };
   return (

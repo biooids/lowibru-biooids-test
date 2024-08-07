@@ -83,13 +83,15 @@ export const signIn = async (req, res, next) => {
   try {
     const validUser = await User.findOne({ emailOrPhone });
     if (!validUser) {
-      return next(errorHandler(400, "user not found"));
+      next(errorHandler(400, "user not found"));
+      return;
     }
 
     const validPassword = await argon2.verify(validUser.password, password);
     console.log(validPassword);
     if (!validPassword) {
-      return next(errorHandler(400, "wrong password"));
+      next(errorHandler(400, "wrong password"));
+      return;
     }
 
     const token = Jwt.sign(
@@ -117,6 +119,7 @@ export const signIn = async (req, res, next) => {
 };
 
 export const forgotPassword = async (req, res, next) => {
+  console.log(req.body);
   const { emailOrPhone } = req.body;
   if (!emailOrPhone) {
     return next(
