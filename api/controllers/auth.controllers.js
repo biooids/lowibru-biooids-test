@@ -143,8 +143,6 @@ export const forgotPassword = async (req, res, next) => {
     validUser.password = hashedPassword;
     const savedUser = await validUser.save();
 
-    // const user2 = validUser._doc;
-
     const auth = {
       auth: {
         api_key: process.env.MAILGUN_API_KEY,
@@ -162,8 +160,8 @@ export const forgotPassword = async (req, res, next) => {
       html: `<h1>Reset Your Password</h1>
       <p>Hi bro! 💀 🤓👇 The following is your new created password: 👇</p>
       <h2>${newPassword}</h2>
-    <p>Please log in and change your password immediately.</p>
-    <p>If you didn't request a password reset, please ignore this email.</p>
+      <p>Please log in and change your password immediately.</p>
+      <p>If you didn't request a password reset, please ignore this email.</p>
 `,
     };
 
@@ -180,6 +178,84 @@ export const forgotPassword = async (req, res, next) => {
         user: savedUser,
       });
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const google = async (req, res, next) => {
+  console.log(req.body);
+
+  const { name, email, googlePhotoUrl } = req.body;
+  try {
+    const user = await User.findOne({ emailOrPhone: email });
+    if (user) {
+      const token = Jwt.sign(
+        {
+          id: user._id,
+          isAdmin: user.isAdmin,
+          isLeader: user.isLeader,
+        },
+
+        process.env.JWT_SECRET,
+        { expiresIn: "365d" }
+      );
+      const user3a = user._doc;
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+          maxAge: 365 * 24 * 60 * 60 * 1000,
+        })
+        .json({ success: true, message: "signed in successfully", user3a });
+    } else {
+      const generatedPassword = crypto.randomBytes(8).toString("hex");
+
+      // Hash the new password
+      const hashedPassword = await argon2.hash(generatedPassword);
+
+      const nameParts = name.split(" ");
+      const firstName =
+        nameParts[0] || `user${crypto.randomBytes(2).toString("hex")}`;
+      const lastName =
+        nameParts.length > 1
+          ? nameParts.slice(1).join("")
+          : `user${crypto.randomBytes(2).toString("hex")}`;
+
+      const newUser = new User({
+        firstName,
+        lastName,
+        userName:
+          name.toLowerCase().split(" ").join("") +
+          crypto.randomBytes(4).toString("hex"),
+        emailOrPhone: email,
+        password: hashedPassword,
+        profilePicture: googlePhotoUrl,
+      });
+
+      const savedUser = await newUser.save();
+
+      const token = Jwt.sign(
+        {
+          id: savedUser._id,
+          isAdmin: savedUser.isAdmin,
+          isLeader: savedUser.isLeader,
+        },
+
+        process.env.JWT_SECRET,
+        { expiresIn: "365d" }
+      );
+
+      const user3b = savedUser._doc;
+
+      res
+        .status(200)
+        .cookie("access_token", token, {
+          httpOnly: true,
+          maxAge: 365 * 24 * 60 * 60 * 1000,
+        })
+        .json({ success: true, message: "signed in successfully", user3b });
+    }
   } catch (error) {
     next(error);
   }

@@ -10,6 +10,7 @@ import {
   signInSuccess,
   signInFailure,
 } from "../../../app/user/userSlice.js";
+import OAuth from "./OAuth.jsx";
 quantum.register();
 
 function SignUp() {
@@ -64,13 +65,11 @@ function SignUp() {
     if (formData.password !== formData.repeatPassword) {
       dispatch(signInFailure("Repeated password don't match"));
       setOpenModal(true);
+      return;
     } else if (formData.password.length < 8) {
-      dispatch(
-        dispatch(
-          signInFailure("Password is short, it must be min 8 characters")
-        )
-      );
+      dispatch(signInFailure("Password is short, it must be min 8 characters"));
       setOpenModal(true);
+      return;
     } else if (
       !formData.userName ||
       !formData.emailOrPhone ||
@@ -79,6 +78,7 @@ function SignUp() {
       !formData.lastName
     ) {
       dispatch(signInFailure("fill out all fields"));
+      return;
     } else {
       try {
         dispatch(signInStart());
@@ -281,7 +281,7 @@ function SignUp() {
           <Button
             type="submit"
             className="bg-cyan-800"
-            gradientDuoTone="purpleToPink"
+            gradientDuoTone="purpleToBlue"
           >
             {loading ? (
               <span className="flex justify-center items-center  gap-2">
@@ -295,9 +295,7 @@ function SignUp() {
         </form>
 
         <p>Or register with Google if applicable</p>
-        <Button className="w-full" type="button">
-          Register with Google
-        </Button>
+        <OAuth />
       </div>
 
       <div>
